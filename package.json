@@ -6,12 +6,14 @@
   "scripts": {
     "commit": "git-cz",
     "docker:dev-db:start": "docker-compose -f docker-compose.only-db-dev.yml up -d",
-    "docker:dev-db:stop": "docker-compose -f docker-compose.only-db-dev.yml down"
+    "docker:dev-db:stop": "docker-compose -f docker-compose.only-db-dev.yml down",
+    "migrate:dev": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "5.12.1",
     "git-cz": "^4.9.0"
   },
   "devDependencies": {
