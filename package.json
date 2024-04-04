@@ -1,10 +1,12 @@
 {
-  "name": "authenticate-backend-assignment",
+  "name": "fake-caller",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API for a phonenumber checking application",
   "main": "index.js",
   "scripts": {
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "docker:dev-db:start": "docker-compose -f docker-compose.only-db-dev.yml up -d",
+    "docker:dev-db:stop": "docker-compose -f docker-compose.only-db-dev.yml down"
   },
   "keywords": [],
   "author": "",
