@@ -1,0 +1,15 @@
+{
+  "name": "authenticate-backend-assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "commit": "git-cz"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "git-cz": "^4.9.0"
+  }
+}
