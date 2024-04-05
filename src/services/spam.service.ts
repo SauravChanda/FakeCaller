@@ -66,8 +66,53 @@ const findSpam = async <Key extends keyof Spam>(
   }) as Promise<Pick<Spam, Key> | null>;
 };
 
+/**
+ * Get spam frequency table
+ */
+const getSpamFrequencyTable = async () => {
+  const phoneNumberSpamFrequency = await prisma.spam.groupBy({
+    by: ["phoneNumber"],
+    _count: {
+      _all: true,
+    },
+  });
+
+  const phoneNumberFrequencyObject: { [phoneNumber: string]: number } = {};
+  phoneNumberSpamFrequency.forEach((item) => {
+    phoneNumberFrequencyObject[item.phoneNumber] = item._count._all;
+  });
+
+  return phoneNumberFrequencyObject;
+};
+
+/**
+ * Get spam frequency of a specific phone number
+ * @param {string} phoneNumber - The phone number to get the spam frequency for
+ * @returns {Promise<number | null>} - Promise resolving to the spam frequency of the specified phone number, or null if the phone number is not found
+ */
+const getSpamFrequencyForNumber = async (
+  phoneNumber: string
+): Promise<number | null> => {
+  const phoneNumberSpamFrequency = await prisma.spam.groupBy({
+    by: ["phoneNumber"],
+    _count: {
+      _all: true,
+    },
+    where: {
+      phoneNumber: phoneNumber,
+    },
+  });
+  if (phoneNumberSpamFrequency.length === 0) {
+    return 0; // Phone number not found
+  }
+
+  return phoneNumberSpamFrequency[0]._count._all;
+};
+
 export default {
   markSpam,
   unmarkSpam,
   findSpam,
+  getSpamFrequencyTable,
+  getSpamFrequencyForNumber
 };

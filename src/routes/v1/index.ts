@@ -3,6 +3,7 @@ import authRoute from "./auth.route";
 import userRoute from "./user.route";
 import searchRoute from "./search.route";
 import spamRoute from "./spam.route";
+import contactRoute from "./contact.route";
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ const defaultRoutes = [
   {
     path: "/spam",
     route: spamRoute,
+  },
+  {
+    path: "/contact",
+    route: contactRoute,
   },
 ];
 

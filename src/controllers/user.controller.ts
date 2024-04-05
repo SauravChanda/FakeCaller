@@ -1,7 +1,7 @@
 import httpStatus from "http-status";
 import ApiError from "../utils/ApiError";
 import catchAsync from "../utils/catchAsync";
-import { userService } from "../services";
+import { userService, spamService } from "../services";
 import exclude from "../utils/exclude";
 
 const createUser = catchAsync(async (req, res) => {
@@ -16,7 +16,13 @@ const getUser = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  res.send(exclude(user, ["password", "createdAt", "updatedAt"]));
+  const spamFrequency = await spamService.getSpamFrequencyForNumber(user.phoneNumber);
+  const userRes = {
+    ...user,
+    spamCount: spamFrequency 
+  }
+
+  res.send(exclude(userRes, ["password", "createdAt", "updatedAt"]));
 });
 
 export default {
