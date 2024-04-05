@@ -3,6 +3,7 @@ import ApiError from "../utils/ApiError";
 import catchAsync from "../utils/catchAsync";
 import { userService, spamService } from "../services";
 import exclude from "../utils/exclude";
+import { User } from "@prisma/client";
 
 const createUser = catchAsync(async (req, res) => {
   const { email, password, name, role } = req.body;
@@ -22,7 +23,11 @@ const getUser = catchAsync(async (req, res) => {
     spamCount: spamFrequency 
   }
 
-  res.send(exclude(userRes, ["password", "createdAt", "updatedAt"]));
+  let excludedKeys = ["password", "createdAt", "updatedAt"];
+
+  if(!user.email) excludedKeys.push("email")
+
+  res.send(exclude(userRes, excludedKeys as Array<keyof User>));
 });
 
 export default {
