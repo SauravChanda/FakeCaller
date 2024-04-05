@@ -76,8 +76,68 @@ const getUserByPhoneNumber = async <Key extends keyof User>(
   }) as Promise<Pick<User, Key> | null>;
 };
 
+/**
+ * Get user where name starts with query
+ * @param {string} query
+ * @param {Array<Key>} keys
+ * @returns {Promise<Pick<User, Key> | null>}
+ */
+const getUserByNameMatchFirst = async <Key extends keyof User>(
+  query: string,
+  keys: Key[] = [
+    "id",
+    "phoneNumber",
+    "name",
+    "password",
+    "email",
+    "createdAt",
+    "updatedAt",
+  ] as Key[]
+): Promise<Pick<User, Key>[]> => {
+  return prisma.user.findMany({
+    where: {
+      name: {
+        startsWith: query,
+        mode: 'insensitive'
+      },
+    },
+    select: keys.reduce((obj, k) => ({ ...obj, [k]: true }), {}),
+  }) as Promise<Pick<User, Key>[]>;
+};
+
+/**
+ * Get user where name contains query
+ * @param {string} query
+ * @param {Array<Key>} keys
+ * @returns {Promise<Pick<User, Key> | null>}
+ */
+const getUserByNameMatchContains = async <Key extends keyof User>(
+  query: string,
+  keys: Key[] = [
+    "id",
+    "phoneNumber",
+    "name",
+    "password",
+    "email",
+    "createdAt",
+    "updatedAt",
+  ] as Key[]
+): Promise<Pick<User, Key>[]> => {
+  return prisma.user.findMany({
+    where: {
+      name: {
+        contains: query,
+        mode: 'insensitive'
+      },
+    },
+    select: keys.reduce((obj, k) => ({ ...obj, [k]: true }), {}),
+  }) as Promise<Pick<User, Key>[]>;
+};
+
 export default {
   createUser,
   getUserById,
-  getUserByPhoneNumber
+  getUserByPhoneNumber,
+  getUserByNameMatchFirst,
+  getUserByNameMatchContains,
 };

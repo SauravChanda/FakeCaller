@@ -22,7 +22,6 @@ const jwtVerify: VerifyCallback = async (payload, done) => {
       where: { id: payload.sub }
     });
 
-    console.log("user",user)
     if (!user) {
       return done(null, false);
     }

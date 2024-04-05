@@ -11,7 +11,6 @@ const verifyCallback =
     reject: (reason?: unknown) => void
   ) =>
   async (err: unknown, user: User | false, info: unknown) => {
-    console.log("err || info || !user", err , info , user)
     if (err || info || !user) {
       return reject(
         new ApiError(httpStatus.UNAUTHORIZED, "Please authenticate")
