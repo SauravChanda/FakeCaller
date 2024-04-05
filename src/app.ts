@@ -7,6 +7,8 @@ import { errorConverter, errorHandler } from "./middlewares/error";
 import ApiError from "./utils/ApiError";
 import httpStatus from "http-status";
 import routes from "./routes/v1";
+import { jwtStrategy } from './config/passport';
+import passport from 'passport';
 
 const app = express();
 
@@ -26,10 +28,13 @@ app.use(xss());
 app.use(cors());
 app.options("*", cors());
 
+// jwt authentication
+app.use(passport.initialize());
+passport.use('jwt', jwtStrategy);
 
-app.use((req, res) => {
-  res.status(httpStatus.OK).send("Pong!!");
-});
+// app.use("/", (req, res) => {
+//   res.status(httpStatus.OK).send("Pong!!");
+// });
 
 // v1 api routes
 app.use("/v1", routes);
