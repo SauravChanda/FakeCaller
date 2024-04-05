@@ -60,7 +60,34 @@ const getContactByNameMatchContains = async <Key extends keyof Contact>(
   }) as Promise<Pick<Contact, Key>[]>;
 };
 
+
+/**
+ * Get contact by phonenumber
+ * @param {string} email
+ * @param {Array<Key>} keys
+ * @returns {Promise<Pick<Contact, Key> | null>}
+ */
+const getContactsByPhoneNumber = async <Key extends keyof Contact>(
+    phoneNumber: string,
+    keys: Key[] = [
+      "id",
+      "phoneNumber",
+      "name",
+      "password",
+      "email",
+      "createdAt",
+      "updatedAt",
+    ] as Key[]
+  ): Promise<Pick<Contact, Key>[]> => {
+    return prisma.contact.findMany({
+      where: { phoneNumber },
+      select: keys.reduce((obj, k) => ({ ...obj, [k]: true }), {}),
+    }) as Promise<Pick<Contact, Key>[]>;
+  };
+  
+
 export default {
   getContactByNameMatchFirst,
   getContactByNameMatchContains,
+  getContactsByPhoneNumber
 };

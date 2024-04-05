@@ -27,8 +27,8 @@ const searchByName = catchAsync(async (req, res) => {
       "name",
       "phoneNumber",
     ]);
-    
-  res.status(httpStatus.CREATED).send({
+
+  res.status(httpStatus.OK).send({
     users: {
       startsWith: usersNameStartsWith,
       contains: usersNameStartsWith,
@@ -40,6 +40,23 @@ const searchByName = catchAsync(async (req, res) => {
   });
 });
 
+const searchByPhoneNumber = catchAsync(async (req, res) => {
+  const { phoneNumber } = req.body;
+  const registeredUserWithPhone = await userService.getUserByPhoneNumber(
+    phoneNumber,
+    ["id", "name", "phoneNumber"]
+  );
+  if (registeredUserWithPhone) {
+    res.status(httpStatus.OK).send([registeredUserWithPhone]);
+  }
+  const registeredContactsWithPhone = await contactService.getContactsByPhoneNumber(
+    phoneNumber,
+    ["id", "name", "phoneNumber"]
+  );
+  res.status(httpStatus.OK).send(registeredContactsWithPhone);
+});
+
 export default {
   searchByName,
+  searchByPhoneNumber
 };

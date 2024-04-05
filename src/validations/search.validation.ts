@@ -6,6 +6,13 @@ const searchByName = {
   }),
 };
 
+const searchByPhoneNumber = {
+    body: Joi.object().keys({
+      phoneNumber: Joi.string().required(),
+    }),
+  };
+
 export default {
   searchByName,
+  searchByPhoneNumber
 };

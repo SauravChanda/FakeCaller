@@ -53,7 +53,7 @@ const getUserById = async <Key extends keyof User>(
 };
 
 /**
- * Get user by email
+ * Get user by phoneNumber
  * @param {string} email
  * @param {Array<Key>} keys
  * @returns {Promise<Pick<User, Key> | null>}
@@ -98,7 +98,7 @@ const getUserByNameMatchFirst = async <Key extends keyof User>(
     where: {
       name: {
         startsWith: query,
-        mode: 'insensitive'
+        mode: "insensitive",
       },
     },
     select: keys.reduce((obj, k) => ({ ...obj, [k]: true }), {}),
@@ -127,7 +127,7 @@ const getUserByNameMatchContains = async <Key extends keyof User>(
     where: {
       name: {
         contains: query,
-        mode: 'insensitive'
+        mode: "insensitive",
       },
     },
     select: keys.reduce((obj, k) => ({ ...obj, [k]: true }), {}),
