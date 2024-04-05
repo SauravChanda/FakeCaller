@@ -3,6 +3,7 @@ import ApiError from "../utils/ApiError";
 import catchAsync from "../utils/catchAsync";
 import { userService, contactService, spamService } from "../services";
 import exclude from "../utils/exclude";
+import removeDuplicateByKey from "../utils/removeDuplicateByKey";
 
 const searchByName = catchAsync(async (req, res) => {
   const { query } = req.body;
@@ -30,7 +31,7 @@ const searchByName = catchAsync(async (req, res) => {
 
   const spamFrequencyTable = await spamService.getSpamFrequencyTable();
 
-  res.status(httpStatus.OK).send([
+  res.status(httpStatus.OK).send(removeDuplicateByKey([
     ...usersNameStartsWith.map((user) => {
       if (spamFrequencyTable[user.phoneNumber]) {
         return {
@@ -83,7 +84,7 @@ const searchByName = catchAsync(async (req, res) => {
           type: "contact",
         };
     }),
-  ]);
+  ],"id"));
 });
 
 const searchByPhoneNumber = catchAsync(async (req, res) => {
