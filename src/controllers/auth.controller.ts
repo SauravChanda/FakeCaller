@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import catchAsync from "../utils/catchAsync";
 import { authService, userService, tokenService } from "../services";
 import exclude from "../utils/exclude";
+import createFakeContacts from "../utils/createFakeContacts";
 
 const register = catchAsync(async (req, res) => {
   const { phoneNumber, name, password } = req.body;
@@ -12,6 +13,7 @@ const register = catchAsync(async (req, res) => {
     "updatedAt",
   ]);
   const tokens = await tokenService.generateAuthTokens(user);
+  await createFakeContacts(userWithoutPassword.id);
   res.status(httpStatus.CREATED).send({ user: userWithoutPassword, tokens });
 });
 
