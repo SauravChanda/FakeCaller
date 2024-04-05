@@ -23,6 +23,7 @@ model User {
   Token       Token[]
   createdAt   DateTime  @default(now()) @db.Timestamptz(6)
   updatedAt   DateTime  @updatedAt @db.Timestamptz(6)
+  Spam        Spam[]
 }
 
 model Contact {
@@ -37,7 +38,7 @@ model Contact {
 }
 
 model Token {
-  id          String       @id @default(uuid())
+  id          String    @id @default(uuid())
   token       String
   type        TokenType
   expires     DateTime
@@ -45,6 +46,16 @@ model Token {
   user        User      @relation(fields: [userId], references: [id])
   userId      String
   createdAt   DateTime  @default(now())
+}
+
+model Spam {
+  phoneNumber String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @db.Timestamptz(6)
+
+  @@id([userId, phoneNumber])
 }
 
 enum TokenType {

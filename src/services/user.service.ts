@@ -54,7 +54,7 @@ const getUserById = async <Key extends keyof User>(
 
 /**
  * Get user by phoneNumber
- * @param {string} email
+ * @param {string} phoneNumber
  * @param {Array<Key>} keys
  * @returns {Promise<Pick<User, Key> | null>}
  */
