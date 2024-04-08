@@ -33,7 +33,6 @@ Running Locally
 ```jsx
 bash
 
-# run all tests
 pnpm dev
 ```
 
@@ -42,6 +41,5 @@ Running in Production
 ```jsx
 bash
 
-# run all tests
 pnpm start
 ```
