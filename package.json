@@ -4,6 +4,7 @@
   "description": "REST API for a phonenumber checking application",
   "main": "index.js",
   "scripts": {
+    "start": "pnpm build && pm2 start ecosystem.config.json --no-daemon",
     "commit": "git-cz",
     "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
     "build": "rm -rf ./build && tsc -p tsconfig.json",
